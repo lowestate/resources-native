@@ -18,7 +18,7 @@ export default function ResourceCard({ navigation, ...props }) {
         navigation.navigate('Подробнее', { name: props.ResourceName })
     }
     const imageName = ResourceImages[props.ResourceName];
-    const imageUrl = `http://192.168.1.64:9000/pc-bucket/${imageName}`;
+    const imageUrl = `http://172.20.10.4:9000/pc-bucket/${imageName}`;
     const defaultImage = require('../assets/placeholder.jpg');
     return (
         <View style={styles.card}>
@@ -33,7 +33,7 @@ export default function ResourceCard({ navigation, ...props }) {
                 style={styles.button}
                 onPress={handlePress}
             >
-                <Text style={styles.buttonText}>Подробнее</Text>
+                <Text style={styles.buttonText}>Отчет по добыче</Text>
             </TouchableOpacity>
         </View>
     )
@@ -41,19 +41,18 @@ export default function ResourceCard({ navigation, ...props }) {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: 'white',
+        backgroundColor: '#cfcfcf',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 10,
         margin: 10,
         padding: 20,
-        textAlign: 'center',
         shadowColor: 'rgb(0, 18, 70)',
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
     },
     button: {
         marginTop: 16,
-        backgroundColor: '#0E3E8DFF',
+        backgroundColor: '#1052c9',
         padding: 12,
         borderRadius: 8,
     },
@@ -62,7 +61,21 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 16,
     },
-    image: { height: 320, alignSelf: 'stretch' },
-    brandTitle: { color: 'black', fontSize: 20, fontWeight: 'bold' },
-    text: { color: '#f0f0f0', fontSize: 16 },
+    image: { 
+        height: 270, 
+        alignSelf: 'stretch',
+        borderRadius: 10,
+    },
+    brandTitle: { 
+        color: 'black',
+        fontSize: 24, 
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    text: { 
+        color: '#f0f0f0', 
+        fontSize: 16, 
+        textAlign: 'center' 
+    },
 });
+

@@ -43,21 +43,15 @@ export default function ResourceDetScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.brandTitle}> {Resource?.ResourceName}</Text>
+      
       <Image source={ { uri: `http://192.168.1.64:9000/pc-bucket/${imageName}` }} style={styles.image} />
+      <Text style={styles.brandTitle}> {Resource?.ResourceName}</Text>
       <View style={styles.rightContent}>
-        <Text>Ресурс {Resource?.IsAvailable ? 'еще есть' : 'закончился'}</Text>
-        <Text>Место: {Resource?.Place}</Text>
-        
-        {Resource?.MonthlyProds && Resource?.Months && (
-        <View>
-          {Resource.Months.map((month, index) => (
-            <Text key={index}>
-              За {month} добыто {Resource.MonthlyProds[index]} кг
-            </Text>
-          ))}
-        </View>
-        )}
+        <Text style={styles.infoTitle}>Ресурс {Resource?.IsAvailable ? 'еще есть' : 'закончился'}</Text>
+        <Text style={styles.infoTitle}>Плотность: {Resource?.Density}</Text>
+        <Text style={styles.infoTitle}>Спрос: {Resource?.Demand}</Text>
+        <Text style={styles.infoTitle}>Токсичен? {Resource?.IsToxic ? 'да' : 'нет'}</Text>
+        <Text style={styles.infoTitle}>Описание: {Resource?.Description}</Text>
       </View>
 
       <TouchableOpacity
@@ -74,19 +68,37 @@ const styles = {
   container: {
     padding: 16,
   },
-  brandTitle: { color: 'black', fontSize: 20, fontWeight: 'bold' },
-  image: { height: 260, alignSelf: 'stretch' },
+  brandTitle: {
+    color: 'black',
+    fontSize: 28, 
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  infoTitle: {
+    color: 'black',
+    fontSize: 18,
+    marginBottom: 8, 
+  },
+  image: {
+    height: 260,
+    alignSelf: 'stretch',
+    marginBottom: 16, 
+  },
   rightContent: {
-    marginLeft: 8,
+    marginLeft: 5,
+    marginRight: 8,
   },
   backButton: {
     marginTop: 16,
-    backgroundColor: '#0E3E8DFF',
+    backgroundColor: '#1052c9',
     padding: 12,
     borderRadius: 8,
+    width: 100,
+    alignSelf: 'center', 
   },
   buttonText: {
     color: 'white',
     textAlign: 'center',
+    fontSize: 16,
   },
 };
