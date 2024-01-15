@@ -11,17 +11,13 @@ export default function ResourcesScreen({ navigation }) {
   const dispatch = useDispatch();
   const { Resources } = useSelector((store) => store.Resource);
   const [nameFilter, setNameFilter] = useState('');
-  const [oceanFilter, setOceanFilter] = useState(false);
-  const [vostFilter, setVostFilter] = useState(false);
-  const [vlazhFilter, setVlazhFilter] = useState(false);
+  const [highDemand, setHighDemand] = useState(false);
 
   const getAllResources = async () => {
     const response = await axiosInstance.get('/resources', {
       params: {
-        Resource_name: nameFilter,
-        Resource_ocean: oceanFilter ? '1' : '',
-        Resource_vost: vostFilter ? '1' : '',
-        Resource_vlazh: vlazhFilter ? '1' : '',
+        resourceName: nameFilter,
+        highDemand: highDemand ? '1' : '',
       },
     });
     console.log("DATA:", response?.data)
@@ -30,16 +26,12 @@ export default function ResourcesScreen({ navigation }) {
 
   const clearFilters = async () => {
     setNameFilter('');
-    setOceanFilter(false);
-    setVostFilter(false);
-    setVlazhFilter(false);
+    setHighDemand(false);
     
     const response = await axiosInstance.get('/resources', {
         params: {
-          Resource_name: '',
-          Resource_place: '',
-          Resource_vost: '',
-          Resource_vlazh: '',
+          resourceName: '',
+          highDemand: '',
         },
       });
     dispatch(setResources(response?.data));
@@ -65,30 +57,16 @@ export default function ResourcesScreen({ navigation }) {
             onValueChange={() => setOceanFilter(!oceanFilter)}
             style={styles.checkbox}
           />
-          <Text>Океан Бурь</Text>
+          <Text>Высокий спрос</Text>
         </View>
-        <View style={styles.checkboxContainer}>
-          <Checkbox
-            value={vostFilter}
-            onValueChange={() => setVostFilter(!oceanFilter)}
-            style={styles.checkbox}
-          />
-          <Text>Море Восточное</Text>
+        <View style={styles.filterButtonContainer}>
+          <TouchableOpacity style={styles.filterButton} onPress={getAllResources}>
+            <Text style={styles.filterButtonText}>Поиск</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.filterButton, styles.clearButton]} onPress={clearFilters}>
+            <Text style={styles.filterButtonText}>Очистить</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.checkboxContainer}>
-          <Checkbox
-            value={vlazhFilter}
-            onValueChange={() => setVlazhFilter(!oceanFilter)}
-            style={styles.checkbox}
-          />
-          <Text>Море Влажности</Text>
-        </View>
-        <TouchableOpacity style={styles.filterButton} onPress={getAllResources}>
-          <Text style={styles.filterButtonText}>Поиск</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.filterButton} onPress={clearFilters}>
-          <Text style={styles.filterButtonText}>Очистить</Text>
-        </TouchableOpacity>
         {!!Resources &&
           Resources.map((Resource) => <ResourceCard key={Resource.ID} {...Resource} navigation={navigation}></ResourceCard>)}
       </View>
@@ -107,23 +85,32 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 8,
   },
   checkbox: {
     alignSelf: 'center',
-    margin: 12,
-    padding: 10,
+    margin: 10,
+  },
+  filterButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 10,
   },
   filterButton: {
-    backgroundColor: '#0E3E8DFF',
+    backgroundColor: '#1052c9',
     padding: 12,
     borderRadius: 8,
-    alignSelf: 'center',
-    marginTop: 10,
+    marginHorizontal: 10,
   },
   filterButtonText: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 18,
+  },
+  clearButton: {
+    backgroundColor: '#8B0000', // dark red color
+    padding: 12,
+    borderRadius: 8,
   },
   page: {
     display: 'flex',
